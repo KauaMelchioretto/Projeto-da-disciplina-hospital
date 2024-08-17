@@ -1,23 +1,32 @@
 package org.example.Entities;
 
 import org.example.Types.Genero;
-import org.example.Utils.DateFormatter;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
-public class Pessoa {
+import static org.example.Utils.DateFormatter.formatStringToLocalDate;
+import static org.example.Utils.DateFormatter.formatDateToString;
+
+
+public abstract class Pessoa {
     private String nome;
     private Integer idade;
     private Genero genero;
     private String cpf;
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
 
-    public Pessoa(String nome, Integer idade, Genero genero, String cpf, String dataNascimento) {
+    public Pessoa(
+            String nome,
+            Genero genero,
+            String cpf,
+            String dataNascimento
+    ) {
         this.nome = nome;
-        this.idade = idade;
         this.genero = genero;
         this.cpf = cpf;
-        this.dataNascimento = (Date) DateFormatter.formatStringToDate(dataNascimento);
+        this.dataNascimento = formatStringToLocalDate(dataNascimento);
+        this.idade = calculaIdade();
     }
 
     public String getNome() {
@@ -37,7 +46,11 @@ public class Pessoa {
     }
 
     public String getDataNascimento() {
-        return DateFormatter.formatDateToString(dataNascimento);
+        return formatDateToString(dataNascimento);
+    }
+
+    private int calculaIdade() {
+        return (int) ChronoUnit.YEARS.between(LocalDate.now(), this.dataNascimento);
     }
 }
 

@@ -1,30 +1,28 @@
 package org.example.Utils;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class DateFormatter {
-    public static final DateFormat dateParser = new SimpleDateFormat("dd/MM/yyyy");
-    public static final DateTimeFormatter dateTimeParser = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter dateParser = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final DateTimeFormatter dateTimeParser = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-    public static Date formatStringToDate(String dateString) {
-        try {
-            return dateParser.parse(dateString);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+    public static LocalDate formatStringToLocalDate(String value) {
+        return LocalDate.parse(value, dateParser);
+    }
+
+    public static LocalDateTime formatStringToLocalDateTime(String value) {
+        return LocalDateTime.parse(value, dateTimeParser);
+    }
+
+    public static <T>String formatDateToString(T value){
+        if(value instanceof LocalDate){
+            return dateParser.format((LocalDate) value);
         }
-    }
-
-    public static LocalDateTime formatStringToDateTime(String dateTimeString) {
-        return OffsetDateTime.parse(dateTimeString, isoFormatter);
-    }
-
-    public static String formatDateToString(Date date) {
-        return dateParser.format(date);
+        if(value instanceof LocalDateTime){
+            return dateTimeParser.format((LocalDateTime) value);
+        }
+        throw new IllegalArgumentException("Valor de data inválido");
     }
 }

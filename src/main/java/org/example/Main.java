@@ -1,39 +1,49 @@
 package org.example;
 
-import org.example.Entities.Paciente;
-import org.example.Entities.Pessoa;
+import org.example.Entities.*;
+import org.example.Types.Especialidades;
 import org.example.Types.Genero;
+import org.example.Types.TipoSanguineo;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        Medico medico = new Medico(
+                "Lucas",
+                Genero.MASCULINO,
+                "111.222.333-44",
+                "29/10/2000",
+                123,
+                "980",
+                Especialidades.ONCOLOGISTA,
+                "15/08/2024",
+                3500
+        );
 
-        Pessoa pessoa = new Pessoa("t", 18, Genero.MASCULINO, "999.999.999-99", "16/12/2024");
-        System.out.println(pessoa.getDataNascimento());
-        System.out.println(pessoa.getGenero().name());
+        Paciente paciente = new Paciente(
+                "Kaua",
+                Genero.MASCULINO,
+                "555.999.777-88",
+                "12/05/2004",
+                456,
+                "16/08/2024",
+                TipoSanguineo.AB,
+                List.of("Alergia a abelhas", "Alergia a vape"),
+                1.7,
+                70
+        );
 
-        // Dados do paciente
-        String nome = "João da Silva";
-        Integer idade = 45;
-        Genero genero = Genero.MASCULINO;
-        String cpf = "123.456.789-00";
-        String dataNascimento = "01/01/1979";
-        List<String> historicoMedico = new ArrayList<>();
-        historicoMedico.add("Hipertensão");
-        historicoMedico.add("Cirurgia de apendicite em 2010");
-        String dataAdmissao = "14/08/2024 10:30:00";
-        Integer codigoPaciente = 123456;
+        Atendimento atendimento = new AtendimentoMedico(paciente, medico);
 
-        // Instância de Paciente
-        Paciente paciente = new Paciente(nome, idade, genero, cpf, dataNascimento, historicoMedico, dataAdmissao, codigoPaciente);
+        atendimento.prescreverMedicacao("Rivotril");
+        atendimento.registrarHistorico("Tem diabetes");
+        atendimento.registrarHistorico("Ficou bem");
+        atendimento.encerrarAtendimento();
+        atendimento.realizarDiagnostico();
 
-        // Exemplo de saída
-        System.out.println("Paciente: " + paciente.getNome());
-        System.out.println("Código do Paciente: " + paciente.getCodigoPaciente());
-        System.out.println("Data de Admissão: " + paciente.getDataAdmissao());
-        System.out.println("Histórico Médico: " + paciente.getHistoricoMedico());
+        for(HistoricoMedico historicoMedico : paciente.getHistoricoMedico()){
+            System.out.println(historicoMedico.getDescricao());
+        }
     }
 }
