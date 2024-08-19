@@ -50,7 +50,7 @@ public abstract class Pessoa {
     }
 
     private int calculaIdade() {
-        return (int) ChronoUnit.YEARS.between(LocalDate.now(), this.dataNascimento);
+        return (int) ChronoUnit.YEARS.between(this.dataNascimento, LocalDate.now());
     }
 }
 

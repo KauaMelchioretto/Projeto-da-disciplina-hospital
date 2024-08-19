@@ -24,7 +24,6 @@ public class Paciente extends Pessoa {
             Genero genero,
             String cpf,
             String dataNascimento,
-            long id,
             String dataRegistro,
             TipoSanguineo tipoSanguineo,
             List<String> alergias,
@@ -32,25 +31,36 @@ public class Paciente extends Pessoa {
             double peso
     ) {
         super(nome, genero, cpf, dataNascimento);
-        this.id = id;
         this.dataRegistro = formatStringToLocalDate(dataRegistro);
+        if (this.dataRegistro.isBefore(formatStringToLocalDate(this.getDataNascimento()))) {
+            System.err.println("A data de registro/entrada do paciente não pode ser menor que sua data de nascimento");
+            return;
+        }
         this.tipoSanguineo = tipoSanguineo;
         this.alergias = alergias;
         this.altura = altura;
         this.peso = peso;
         this.historicoMedico = new ArrayList<>();
+        System.out.println("Paciente cadastrado com sucesso!");
     }
 
     public void adicionarHistoricoMedico(HistoricoMedico value) {
         historicoMedico.add(value);
     }
 
-    public long getId() {
-        return id;
-    }
-
     public List<HistoricoMedico> getHistoricoMedico() {
         return historicoMedico;
+    }
+
+    public void consultaHistoricoMedico() {
+        System.out.println("\nHistórico médico do paciente: " + this.getNome());
+        for(HistoricoMedico historicoMedico : this.getHistoricoMedico()){
+            System.out.println("======================================");
+            System.out.println("Data: " + historicoMedico.getDataHoraOcorrencia());
+            System.out.println("Descrição: " + historicoMedico.getDescricao());
+            System.out.println("Atendido pelo Médico: " + historicoMedico.getMedico().getNome());
+            System.out.println("======================================");
+        }
     }
 
     public String getDataRegistro() {
