@@ -5,6 +5,7 @@ import org.example.Types.Genero;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import static org.example.Utils.DateFormatter.formatStringToLocalDate;
 
@@ -47,6 +48,13 @@ public class Medico extends Pessoa {
         }
         this.salario = salario;
         System.out.println("Médico cadastrado com sucesso!");
+    }
+
+    public static void listaMedicosIndex(List<Medico> medicos) {
+        System.out.println("=== Lista index/nome médico ===");
+        for (int i = 0; i < medicos.size(); i++) {
+            System.out.printf("Index: %d, Nome: %s\n", i, medicos.get(i).getNome());
+        }
     }
 
     public String getCrm() {
