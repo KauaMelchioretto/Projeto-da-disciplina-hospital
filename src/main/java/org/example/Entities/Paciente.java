@@ -63,6 +63,13 @@ public class Paciente extends Pessoa {
         }
     }
 
+    public static void listaPacientesIndex(List<Paciente> pacientes) {
+        System.out.println("=== Lista index/nome paciente ===");
+        for (int i = 0; i < pacientes.size(); i++) {
+            System.out.printf("Index: %d, Nome: %s\n", i, pacientes.get(i).getNome());
+        }
+    }
+
     public String getDataRegistro() {
         return formatDateToString(dataRegistro);
     }
